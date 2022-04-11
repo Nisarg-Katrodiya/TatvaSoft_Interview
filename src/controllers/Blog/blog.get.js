@@ -6,28 +6,29 @@ const responseCode = require('../../utils/statusCodes');
 exports.getAll = async(req) => {
   try {
 
-    let {pageNumber = 1, pageSize = 10, title, author, category, user, date} = req.query;
+    let {pageNumber = 1, pageSize = 10, title, author, category, blog, date} = req.query;
     let query = {};
     
     if(title) query.title = title;
     if(author) query.author = author;
     if(category) query.category = category;
-    if(user) query.user = user;
+    if(blog) query.blog = blog;
 
+    let blogList = await Blog.find();
 
-    let userList = await Blog
+    let blogList = await Blog
       .find(query)
       .sort({publised_date: -1})
       .skip((parseInt(pageNumber) - 1) * parseInt(pageSize))
       .limit(parseInt(pageSize))
-    if (userList) {
+    if (blogList) {
       return message.successRes(
         responseCode.success,
-        userList
+        blogList
       )
     } 
   } catch (error) {
-    console.log("🚀 ~ file: user.get.js ~ line 16 ~ exports.getAll=async ~ error", error)
+    console.log("🚀 ~ file: blog.get.js ~ line 16 ~ exports.getAll=async ~ error", error)
     return message.serverEror(responseCode.internalServerError);
   }
 }
@@ -35,11 +36,11 @@ exports.getAll = async(req) => {
 exports.getById = async(req) => {
   try {
 
-    let user = await Blog.findById(req.params.id);
-    if(user) {
+    let blog = await Blog.findById(req.params.id);
+    if(blog) {
       return message.successRes(
         responseCode.success,
-        user
+        blog
       );
     } else {
       return message.notFound(
@@ -48,7 +49,7 @@ exports.getById = async(req) => {
     }
     
   } catch (error) {
-    console.log("🚀 ~ file: user.get.js ~ line 32 ~ exports.getById=async ~ error", error)
+    console.log("🚀 ~ file: blog.get.js ~ line 32 ~ exports.getById=async ~ error", error)
     return message.serverEror(responseCode.internalServerError);
   }
 }
