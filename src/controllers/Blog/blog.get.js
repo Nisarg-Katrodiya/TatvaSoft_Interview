@@ -7,14 +7,15 @@ exports.getAll = async(req) => {
   try {
 
     let {pageNumber = 1, pageSize = 10, title, author, category, blog, date} = req.query;
-    let query = {};
+    let query = {}, meta = {};
     
     if(title) query.title = title;
     if(author) query.author = author;
     if(category) query.category = category;
     if(blog) query.blog = blog;
 
-    let blogList = await Blog.find();
+    let blogListCount = await Blog.find();
+    meta.totalData = blogListCount.length;
 
     let blogList = await Blog
       .find(query)
@@ -24,7 +25,8 @@ exports.getAll = async(req) => {
     if (blogList) {
       return message.successRes(
         responseCode.success,
-        blogList
+        blogList,
+        meta
       )
     } 
   } catch (error) {
