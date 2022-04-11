@@ -1,7 +1,8 @@
 const response = require('../../helper/response');
-const userPost = require('./user.post.js');
-const userPut = require('./user.put.js');
-const userGet = require('./user.get.js');
+const userPost = require('./user.post');
+const userPut = require('./user.put');
+const userGet = require('./user.get');
+const userdelete = require('./user.delete');
 
 exports.create = (req, res) => {
   userPost.create(req)
@@ -40,7 +41,7 @@ exports.getOne = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  userPost.create(req)
+  userdelete.deleteById(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {

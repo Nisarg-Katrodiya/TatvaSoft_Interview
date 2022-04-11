@@ -1,10 +1,11 @@
 const response = require('../../helper/response');
-const userPost = require('./user.post.js');
-const userPut = require('./user.put.js');
-const userGet = require('./user.get.js');
+const blogPost = require('./blog.post');
+const blogPut = require('./blog.put');
+const blogGet = require('./blog.get');
+const blogdelete = require('./blog.delete');
 
 exports.create = (req, res) => {
-  userPost.create(req)
+  blogPost.create(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {
@@ -13,7 +14,7 @@ exports.create = (req, res) => {
 }
 
 exports.update = (req, res) => {
-  userPut.update(req)
+  blogPut.update(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {
@@ -22,7 +23,7 @@ exports.update = (req, res) => {
 }
 
 exports.getAll = (req, res) => {
-  userGet.getAll(req)
+  blogGet.getAll(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {
@@ -31,7 +32,7 @@ exports.getAll = (req, res) => {
 }
 
 exports.getOne = (req, res) => {
-  userGet.getById(req)
+  blogGet.getById(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {
@@ -40,7 +41,7 @@ exports.getOne = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-  userPost.create(req)
+  blogdelete.deleteById(req)
   .then((result) => {
     response(res, result)
   }).catch((err) => {

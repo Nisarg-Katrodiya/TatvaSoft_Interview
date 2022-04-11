@@ -9,13 +9,18 @@ exports.update = async(req) => {
 
     let {lastname, firstname, email, password, dob, role} = req.body;
 
-    const findUser = User.findOne({email});
+    if(req.user.id != req.params.id && req.user.role !== 'admin') {
+      return message.notAuthenticate(
+        responseCode.unAuthoriseRequest,
+      )
+    }
+
+    let findUser = await User.findById(req.params.id);
     if(!findUser) {
       return message.notFound(
         responseCode.notFound,
       )
     }
-    findUser = findUser.toJSON();
     if(lastname) findUser.lastname = lastname;
     if(firstname) findUser.firstname = firstname;
     if(email) findUser.email = email;
@@ -26,8 +31,9 @@ exports.update = async(req) => {
       const salt = await bcrypt.genSalt(10);
       findUser.password = await bcrypt.hash(findUser.password, salt);
     }
-
-    let user = User.findByIdAndUpdate(findUser._id, {$set: { userData }}, {new: true})
+    
+    findUser = findUser.toJSON();
+    let user = await User.findByIdAndUpdate(findUser._id, findUser, {new: true})
     if(user) {
       return message.successRes(
         responseCode.success,
@@ -35,8 +41,8 @@ exports.update = async(req) => {
       )
     }
 
-    
   } catch (error) {
+    console.log("🚀 ~ file: user.put.js ~ line 40 ~ exports.update=async ~ error", error)
     return message.serverEror(responseCode.internalServerError);
   }
 }

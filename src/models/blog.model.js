@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
+const {User} = require('../models/user.model');
 
 const blogSchema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User
+  },
   title: {
     type: String,
     require: true,

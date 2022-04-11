@@ -37,6 +37,15 @@ message.associated = (statusCode, data) => ({
   }
 })
 
+message.notAuthenticate = (statusCode, data) => ({
+  statusCode,
+  data: {
+    status: "conflict",
+    message: "Can not update data",
+    data: {}
+  }
+})
+
 message.badRequest = (statusCode, data) => ({
   statusCode,
   data: {
@@ -61,5 +70,13 @@ message.loginSuccess = (statusCode, data) => ({
     status: "success",
     message: "Login successfull",
     data: {}
+  }
+})
+
+message.deleteSuccess = (statusCode, data, meta) => ({
+  statusCode,
+  data: {
+    status: "Success",
+    message: "Data successfully deleted",
   }
 })

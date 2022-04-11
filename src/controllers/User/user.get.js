@@ -27,6 +27,10 @@ exports.getById = async(req) => {
         responseCode.success,
         user
       )
+    } else {
+      return message.notFound(
+        responseCode.notFound,
+      )
     }
     
   } catch (error) {
